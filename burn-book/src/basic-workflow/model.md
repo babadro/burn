@@ -51,6 +51,14 @@ pub struct Model<B: Backend> {
 }
 ```
 
+Each time you create a new file in the `src` directory you also need to explicitly add this
+module to the `main.rs` file. For instance, after creating the `model.rs`, you need to add
+the following at the top of the main file:
+
+```rust , ignore
+mod model;
+```
+
 There are two major things going on in this code sample.
 
 1. You can create a deep learning module with the `#[derive(Module)]` attribute on top of a struct.
@@ -150,16 +158,7 @@ There are two major things going on in this code sample.
 
    </details><br>
 
-Note that each time you create a new file in the `src` directory you also need to explicitly add this
-module to the `main.rs` file. For instance after creating the `model.rs`, you need to add the following
-at the top of the main file:
 
-```rust , ignore
-mod model;
-#
-# fn main() {
-# }
-```
 Next, we instantiate the model for training.
 
 ```rust, ignore
