@@ -23,11 +23,11 @@ edition = "2021"
 burn = { version = "~0.15", features = ["train", "wgpu", "vision"] }
 ```
 
-Our goal will be to create a basic convolutional neural network used for image classification. We
-will keep the model simple by using two convolution layers followed by two linear layers, some
-pooling and ReLU activations. We will also use dropout to improve training performance.
+Our goal is to create a basic convolutional neural network used for image classification. We
+keep the model simple by using two convolution layers followed by two linear layers, some
+pooling and ReLU activations. We also use dropout to improve training performance.
 
-Let us start by defining our model struct in a new file `src/model.rs`.
+Let's start by defining our model struct in a new file `src/model.rs`.
 
 ```rust , ignore
 use burn::{
@@ -54,8 +54,8 @@ pub struct Model<B: Backend> {
 There are two major things going on in this code sample.
 
 1. You can create a deep learning module with the `#[derive(Module)]` attribute on top of a struct.
-   This will generate the necessary code so that the struct implements the `Module` trait. This
-   trait will make your module both trainable and (de)serializable while adding related
+   This generates the necessary code for the struct to implement the `Module` trait. This
+   trait makes your module both trainable and (de)serializable while adding related
    functionalities. Like other attributes often used in Rust, such as `Clone`, `PartialEq` or
    `Debug`, each field within the struct must also implement the `Module` trait.
 
@@ -67,7 +67,7 @@ There are two major things going on in this code sample.
 
    A type's behavior consists of the methods called on that type. Since all `Module`s should
    implement the same functionality, it is defined as a trait. Implementing a trait on a particular
-   type usually requires the user to implement the defined behaviors of the trait for their types,
+   type usually requires the user to implement the defined behaviors of the trait for their type,
    though that is not the case here as explained above with the `derive` attribute. Check out the
    [explainer below](#derive-attribute) to learn why.
 
@@ -79,29 +79,27 @@ There are two major things going on in this code sample.
    <summary><strong>🦀 Derive Macro</strong></summary>
 
    The `derive` attribute allows traits to be implemented easily by generating code that will
-   implement a trait with its own default implementation on the type that was annotated with the
+   implement a trait with its own default implementation on the type that is annotated with the
    `derive` syntax.
 
    This is accomplished through a feature of Rust called
-   [procedural macros](https://doc.rust-lang.org/reference/procedural-macros.html), which allow us
+   [procedural macros](https://doc.rust-lang.org/reference/procedural-macros.html), which allow
    to run code at compile time that operates over Rust syntax, both consuming and producing Rust
-   syntax. Using the attribute `#[my_macro]`, you can effectively extend the provided code. You will
-   see that the derive macro is very frequently employed to recursively implement traits, where the
+   syntax. Using the attribute `#[my_macro]`, you can effectively extend the provided code.
+   The derive macro is frequently employed to recursively implement a trait, where the
    implementation consists of the composition of all fields.
 
-   In this example, we want to derive the [`Module`](../building-blocks/module.md) and `Debug`
+   In this example, we derive the [`Module`](../building-blocks/module.md) and `Debug`
    traits.
 
    ```rust, ignore
    #[derive(Module, Debug)]
-   pub struct MyCustomModule<B: Backend> {
-       linear1: Linear<B>,
-       linear2: Linear<B>,
-       activation: Relu,
+   pub struct Model<B: Backend> {
+       // ...
    }
    ```
 
-   The basic `Debug` implementation is provided by the compiler to format a value using the `{:?}`
+   The `Debug` implementation is provided by the compiler to format a value using the `{:?}`
    formatter. For ease of use, the `Module` trait implementation is automatically handled by Burn so
    you don't have to do anything special. It essentially acts as parameter container.
 
@@ -111,22 +109,22 @@ There are two major things going on in this code sample.
    [example](https://doc.rust-lang.org/rust-by-example/trait/derive.html).
    </details><br>
 
-2. Note that the struct is generic over the [`Backend`](../building-blocks/backend.md) trait. The
-   backend trait abstracts the underlying low level implementations of tensor operations, allowing
-   your new model to run on any backend. Contrary to other frameworks, the backend abstraction isn't
+2. Note that the `Model` struct is generic over the [`Backend`](../building-blocks/backend.md) trait. The
+   backend trait abstracts the underlying low-level implementations of tensor operations, allowing
+   the model to run on any backend. Contrary to other frameworks, the backend abstraction isn't
    determined by a compilation flag or a device type. This is important because you can extend the
    functionalities of a specific backend (see
    [backend extension section](../advanced/backend-extension)), and it allows for an innovative
    [autodiff system](../building-blocks/autodiff.md). You can also change backend during runtime,
-   for instance to compute training metrics on a cpu backend while using a gpu one only to train the
-   model. In our example, the backend in use will be determined later on.
+   for instance to compute training metrics on a cpu backend while using a gpu only to train the
+   model. In our example, the backend is determined later on.
 
    <details>
    <summary><strong>🦀 Trait Bounds</strong></summary>
 
    Trait bounds provide a way for generic items to restrict which types are used as their
-   parameters. The trait bounds stipulate what functionality a type implements. Therefore, bounding
-   restricts the generic to types that conform to the bounds. It also allows generic instances to
+   parameters. The trait bounds stipulate what functionality a type need to implement. Therefore, bounding
+   restricts a generic type to types that conform to the bounds. It also allows generic instances to
    access the methods of traits specified in the bounds.
 
    For a simple but concrete example, check out the
@@ -136,7 +134,7 @@ There are two major things going on in this code sample.
    as it abstracts tensor, device and element types. The
    [getting started example](../getting-started.md#writing-a-code-snippet) illustrates the advantage
    of having a simple API that works for different backend implementations. While it used the WGPU
-   backend, you could easily swap it with any other supported backend.
+   backend, you could easily swap it with any other supported backend by modifying a single line.
 
    ```rust, ignore
    // Choose from any of the supported backends.
@@ -144,13 +142,6 @@ There are two major things going on in this code sample.
    // type Backend = LibTorch<f32>;
    // type Backend = NdArray<f32>;
    type Backend = Wgpu;
-
-   // Creation of two tensors.
-   let tensor_1 = Tensor::<Backend, 2>::from_data([[2., 3.], [4., 5.]], &device);
-   let tensor_2 = Tensor::<Backend, 2>::ones_like(&tensor_1);
-
-   // Print the element-wise addition (done with the selected backend) of the two tensors.
-   println!("{}", tensor_1 + tensor_2);
    ```
 
    For more details on trait bounds, check out the Rust
@@ -169,10 +160,9 @@ mod model;
 # fn main() {
 # }
 ```
+Next, we instantiate the model for training.
 
-Next, we need to instantiate the model for training.
-
-```rust , ignore
+```rust, ignore
 # use burn::{
 #     nn::{
 #         conv::{Conv2d, Conv2dConfig},
@@ -202,7 +192,7 @@ pub struct ModelConfig {
 }
 
 impl ModelConfig {
-    /// Returns the initialized model.
+    /// Returns an initialized model.
     pub fn init<B: Backend>(&self, device: &B::Device) -> Model<B> {
         Model {
             conv1: Conv2dConfig::new([1, 8], [3, 3]).init(device),
@@ -218,11 +208,14 @@ impl ModelConfig {
 ```
 
 
-At a glance, you can view the model configuration by printing the model instance:
+At a glance, you can view the model configuration by printing the model instance
+in `main.rs`:
 
-```rust , ignore
-use crate::model::ModelConfig;
+```rust, ignore
+mod model;
+
 use burn::backend::Wgpu;
+use model::ModelConfig;
 
 fn main() {
     type MyBackend = Wgpu<f32, i32>;
@@ -234,9 +227,14 @@ fn main() {
 }
 ```
 
-Output:
+Running 
+```console 
+cargo run
+```
 
-```rust , ignore
+you should get
+
+```rust, ignore
 Model {
   conv1: Conv2d {stride: [1, 1], kernel_size: [3, 3], dilation: [1, 1], groups: 1, padding: Valid, params: 80}
   conv2: Conv2d {stride: [1, 1], kernel_size: [3, 3], dilation: [1, 1], groups: 1, padding: Valid, params: 1168}
@@ -266,7 +264,7 @@ pub fn init<B: Backend>(&self, device: &B::Device) -> Model<B> {
 }
 ```
 
-References in Rust allow us to point to a resource to access its data without owning it. The idea of
+References in Rust point to a resource to access its data without owning it. The idea of
 ownership is quite core to Rust and is worth
 [reading up on](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html).
 
@@ -292,22 +290,22 @@ Rust Book.
 </details><br>
 
 When creating a custom neural network module, it is often a good idea to create a config alongside
-the model struct. This allows you to define default values for your network, thanks to the `Config`
+the model struct. This allows to define default values for the network, thanks to the `Config`
 attribute. The benefit of this attribute is that it makes the configuration serializable, enabling
-you to painlessly save your model hyperparameters, enhancing your experimentation process. Note that
-a constructor will automatically be generated for your configuration, which will take in as input
+to painlessly save your model hyperparameters, enhancing the experimentation process. Note that
+a constructor is automatically generated for the configuration, which take as input
 values the parameters which do not have default values:
 `let config = ModelConfig::new(num_classes, hidden_size);`. The default values can be overridden
 easily with builder-like methods: (e.g `config.with_dropout(0.2);`)
 
-The first implementation block is related to the initialization method. As we can see, all fields
+The first implementation block is related to the initialization method. All fields
 are set using the configuration of the corresponding neural network's underlying module. In this
-specific case, we have chosen to expand the tensor channels from 1 to 8 with the first layer, then
+specific case, we expand the tensor channels from 1 to 8 with the first layer, then
 from 8 to 16 with the second layer, using a kernel size of 3 on all dimensions. We also use the
 adaptive average pooling module to reduce the dimensionality of the images to an 8 by 8 matrix,
-which we will flatten in the forward pass to have a 1024 (16 _ 8 _ 8) resulting tensor.
+which we flatten in the forward pass to get a tensor with 1024 (16 × 8 × 8) elements.
 
-Now let's see how the forward pass is defined.
+Now, let's define the forward pass.
 
 ```rust , ignore
 # use burn::{
@@ -389,9 +387,9 @@ standard in the field.
 
 Similar to neural network modules, the [`Tensor`](../building-blocks/tensor.md) struct given as a
 parameter also takes the Backend trait as a generic argument, alongside its dimensionality. Even if
-it is not used in this specific example, it is possible to add the kind of the tensor as a third
-generic argument. For example, a 3-dimensional Tensor of different data types(float, int, bool)
-would be defined as following:
+it is not used in this specific example, it is possible to add the type of the elements of the 
+tensor as a third generic argument. For example, 3-dimensional Tensors of different data 
+types(float, int, bool) are defined as following:
 
 ```rust , ignore
 Tensor<B, 3> // Float tensor (default)
@@ -400,5 +398,5 @@ Tensor<B, 3, Int> // Int tensor
 Tensor<B, 3, Bool> // Bool tensor
 ```
 
-Note that the specific element type, such as `f16`, `f32` and the likes, will be defined later with
+Note that the specific element type, such as `f16`, `f32` and the likes are defined later within
 the backend.
