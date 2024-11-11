@@ -80,8 +80,11 @@ use burn::tensor::Tensor;
 type Backend = Wgpu;
 
 fn main() {
+    // Here Rust infer the type of `device` to `WgpuDevice`.
     let device = Default::default();
-    // Creation of two tensors, the first with explicit values and the second one with ones, with the same shape as the first
+
+    // Create two tensors, the first with explicit values
+    // and the second filled with ones and using the same shape as the first
     let tensor_1 = Tensor::<Backend, 2>::from_data([[2., 3.], [4., 5.]], &device);
     let tensor_2 = Tensor::<Backend, 2>::ones_like(&tensor_1);
 
