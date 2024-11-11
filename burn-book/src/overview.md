@@ -5,6 +5,8 @@ Welcome to The Burn Book 👋
 This book will help you get started with the Burn deep learning framework, whether you are an
 advanced user or a beginner. We have crafted some sections for you:
 
+- [Getting started](./getting-started): Install the required tools and write your first Burn application.
+
 - [Basic Workflow: From Training to Inference](./basic-workflow): Start with the fundamentals
   and a tour of the entire workflow, from training your models to deploying them for
   inference. This section lays the groundwork for your Burn expertise.
