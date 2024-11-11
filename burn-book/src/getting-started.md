@@ -29,11 +29,11 @@ Below is a short cheat sheet of the main `cargo` commands you might use througho
 
 | Command             | Description                                                                                  |
 | ------------------- | -------------------------------------------------------------------------------------------- |
-| `cargo new` _path_  | Create a new Cargo package in the given directory.                                           |
+| `cargo new` _path_  | Create a new Cargo package at the given _path_.                                           |
 | `cargo add` _crate_ | Add dependencies to the Cargo.toml manifest file.                                            |
 | `cargo build`       | Compile the local package and all of its dependencies (in debug mode, use `-r` for release). |
 | `cargo check`       | Check the local package for compilation errors (much faster).                                |
-| `cargo run`         | Run the local package binary.                                                                |
+| `cargo run`         | Run the local package binary (in debug mode, use `-r` for release).                                                                |
 
 For more information, check 
 [Hello, Cargo!](https://doc.rust-lang.org/book/ch01-03-hello-cargo.html) in the Rust Book.
