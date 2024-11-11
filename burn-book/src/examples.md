@@ -1,6 +1,6 @@
 # Examples
 
-In the [next chapter](./basic-workflow) you'll have the opportunity to implement the whole Burn
+In the [next chapter](./basic-workflow) you'll implement the whole Burn
 `guide` example yourself in a step by step manner.
 
 Many additional Burn examples are available in the
@@ -17,27 +17,25 @@ To learn more about crates and examples, read the Rust section below.
 <details>
 <summary><strong>🦀 About Rust crates</strong></summary>
 
-Each Burn example is a **package** which are subdirectories of the `examples` directory. A package
-is composed of one or more **crates**.
-
-A package is a bundle of one or more crates that provides a set of functionality. A package contains
-a `Cargo.toml` file that describes how to build those crates.
+Each Burn example is a **package** which is a subdirectory of the `examples` directory.
+A package is a bundle of one or more crates providing different functionalities and
+a `Cargo.toml` file describing how to build those crates.
 
 A crate is a compilation unit in Rust. It could be a single file, but it is often easier to split up
 crates into multiple **modules**.
 
 A module lets us organize code within a crate for readability and easy reuse. Modules also allow us
-to control the _privacy_ of items. For instance the `pub(crate)` keyword is employed to make a
-module publicly available inside the crate. In the snippet below there are four modules declared,
-two of them are public and visible to the users of the crates, one of them is public inside the
-crate only and crate users cannot see it, at last one is private when there is no keyword. These
-modules can be single files or a directory with a `mod.rs` file inside.
+to control the _privacy_ of items. For instance, the `pub(crate)` keyword is employed to make a
+module publicly available inside the crate. In the snippet below four modules are declared,
+the first two are public and visible to the users of the crates, the third is public inside the
+crate only and crate users cannot access it, and the last one is private. 
+Each module can be a single file or a directory with a `mod.rs` file inside.
 
 ```rust, ignore
 pub mod data;
 pub mod inference;
 pub(crate) mod model;
-mod training;
+mod training; // Without the `pub` keyword, modules are private by default.
 ```
 
 A crate can come in one of two forms: a **binary crate** or a **library crate**. When compiling a
@@ -45,10 +43,10 @@ crate, the compiler first looks in the crate root file (`src/lib.rs` for a libra
 `src/main.rs` for a binary crate). Any module declared in the crate root file will be inserted in
 the crate for compilation.
 
-All Burn examples are library crates and they can contain one or more executable examples that uses
+All Burn examples are library crates and they contain one or more executable examples that uses
 the library. We even have some Burn examples that uses the library crate of other examples.
 
-The examples are unique files under the `examples` directory. Each file produces an executable file
+The examples are single files under the `examples` directory. Each file produces an executable
 with the same name. Each example can then be executed with `cargo run --example <executable name>`.
 
 Below is a file tree of a typical Burn example package:
@@ -73,11 +71,11 @@ The following additional examples are currently available if you want to check t
 
 | Example                                                                                                   | Description                                                                                                                                                                                  |
 | :-------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Custom CSV Dataset](https://github.com/tracel-ai/burn/tree/main/examples/custom-csv-dataset)             | Implements a dataset to parse CSV data for a regression task.                                                                                                                                |
+| [Custom CSV Dataset](https://github.com/tracel-ai/burn/tree/main/examples/custom-csv-dataset)             | Implements a parser for a CSV dataset for a regression task.                                                                                                                                 |
 | [Regression](https://github.com/tracel-ai/burn/tree/main/examples/simple-regression)                      | Trains a simple MLP on the California Housing dataset to predict the median house value for a district.                                                                                      |
 | [Custom Image Dataset](https://github.com/tracel-ai/burn/tree/main/examples/custom-image-dataset)         | Trains a simple CNN on custom image dataset following a simple folder structure.                                                                                                             |
 | [Custom Renderer](https://github.com/tracel-ai/burn/tree/main/examples/custom-renderer)                   | Implements a custom renderer to display the [`Learner`](./building-blocks/learner.md) progress.                                                                                              |
-| [Image Classification Web](https://github.com/tracel-ai/burn/tree/main/examples/image-classification-web) | Image classification web browser demo using Burn, WGPU and WebAssembly.                                                                                                                      |
+| [Image Classification Web](https://github.com/tracel-ai/burn/tree/main/examples/image-classification-web) | Classifies images in a web browser using Burn, WGPU and WebAssembly.                                                                                                                         |
 | [MNIST Inference on Web](https://github.com/tracel-ai/burn/tree/main/examples/mnist-inference-web)        | An interactive MNIST inference demo in the browser. The demo is available [online](https://burn.dev/demo/).                                                                                  |
 | [MNIST Training](https://github.com/tracel-ai/burn/tree/main/examples/mnist)                              | Demonstrates how to train a custom [`Module`](./building-blocks/module.md) (MLP) with the [`Learner`](./building-blocks/learner.md) configured to log metrics and keep training checkpoints. |
 | [Named Tensor](https://github.com/tracel-ai/burn/tree/main/examples/named-tensor)                         | Performs operations with the experimental `NamedTensor` feature.                                                                                                                             |
