@@ -1,4 +1,4 @@
-# Guide
+# Basic workflow: From training to inference
 
 In this section we guide your through the process of creating a custom model with Burn. 
 We train a simple convolutional neural network model on the MNIST dataset and prepare it for inference.
