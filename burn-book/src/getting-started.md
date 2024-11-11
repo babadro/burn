@@ -160,7 +160,7 @@ Tensor {
  [5.0, 6.0]],
   shape:  [2, 2],
   device:  DefaultDevice,
-  backend:  "wgpu",
+  backend:  "fusion<jit<wgpu<wgsl>>>",
   kind:  "Float",
   dtype:  "f32",
 }
