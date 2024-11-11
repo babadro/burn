@@ -68,15 +68,24 @@ impl<B: Backend> Batcher<MnistItem, MnistBatch<B>> for MnistBatcher<B> {
     fn batch(&self, items: Vec<MnistItem>) -> MnistBatch<B> {
         let images = items
             .iter()
-            .map(|item| TensorData::from(item.image).convert::<B::FloatElem>())
-            .map(|data| Tensor::<B, 2>::from_data(data, &self.device))
-            .map(|tensor| tensor.reshape([1, 28, 28]))
-            // Normalize: make between [0,1] and make the mean=0 and std=1
-            // values mean=0.1307,std=0.3081 are from the PyTorch MNIST example
+            // Convert each image to a 1 × 28 × 28 tensor using the specific
+            // data type provided by the backend.
+            // Later, we will concatenate all tensors along the first dimension
+            // to generate a num_images × 28 × 28 tensor representing the complete batch.
+            .map(|item| {
+                let data = TensorData::from(item.image).convert::<B::FloatElem>();
+                Tensor::<B, 2>::from_data(data, &self.device).reshape([1, 28, 28])
+            })
+            // Normalize the tensor such that each value is between 0 and 1,
+            // the mean value is 0 and the standard deviation is 1.
+            // The magic numbers are taken from PyTorch MNIST example
             // https://github.com/pytorch/examples/blob/54f4572509891883a947411fd7239237dd2a39c3/mnist/main.py#L122
-            .map(|tensor| ((tensor / 255) - 0.1307) / 0.3081)
+            .map(|tensor| (tensor / 255 - 0.1307) / 0.3081)
             .collect();
 
+        // Similar to `images`, we build a Vec of tensors that we will
+        // concatenate in a single tensor containing all the targets.
+        // Each target is a single-element tensor for now.
         let targets = items
             .iter()
             .map(|item| {
@@ -87,6 +96,7 @@ impl<B: Backend> Batcher<MnistItem, MnistBatch<B>> for MnistBatcher<B> {
             })
             .collect();
 
+        // Concatenate both Vec along the first dimension.
         let images = Tensor::cat(images, 0).to_device(&self.device);
         let targets = Tensor::cat(targets, 0).to_device(&self.device);
 
@@ -114,19 +124,6 @@ the iterator items at each step. These anonymous functions are called
 [_closures_](https://doc.rust-lang.org/book/ch13-01-closures.html) in Rust. They're
 recognizable by their syntax which uses vertical bars `||`. The vertical bars capture the input
 variables (if applicable) while the rest of the expression defines the function to execute.
-
-If we go back to the example, we can break down and comment the expression used to process the
-images.
-
-```rust, ignore
-let images = items                                                       // take items Vec<MnistItem>
-    .iter()                                                              // create an iterator over it
-    .map(|item| TensorData::from(item.image).convert::<B::FloatElem>())  // for each item, convert the image to float data struct
-    .map(|data| Tensor::<B, 2>::from_data(data, &self.device))           // for each data struct, create a tensor on the device
-    .map(|tensor| tensor.reshape([1, 28, 28]))                           // for each tensor, reshape to the image dimensions [C, H, W]
-    .map(|tensor| ((tensor / 255) - 0.1307) / 0.3081)                    // for each image tensor, apply normalization
-    .collect();                                                          // consume the resulting iterator & collect the values into a new vector
-```
 
 For more information on iterators and closures, be sure to check out the
 [corresponding chapter](https://doc.rust-lang.org/book/ch13-00-functional-features.html) in the Rust
