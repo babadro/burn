@@ -3,12 +3,12 @@
 Typically, one trains a model on some dataset. Burn provides a library of very useful dataset
 sources and transformations, such as Hugging Face dataset utilities that allow to download and store
 data into an SQLite database for extremely efficient data streaming and storage. For this guide
-though, we will use the MNIST dataset from `burn::data::dataset::vision` which requires no external
+though, we use the MNIST dataset from `burn::data::dataset::vision` which requires no external
 dependency.
 
-To iterate over a dataset efficiently, we will define a struct which will implement the `Batcher`
+To iterate over a dataset efficiently, we define a struct implementing the `Batcher`
 trait. The goal of a batcher is to map individual dataset items into a batched tensor that can be
-used as input to our previously defined model.
+used as input to a model.
 
 Let us start by defining our dataset functionalities in a file `src/data.rs`. We shall omit some of
 the imports for brevity, but the full code for following this guide can be found at
@@ -33,13 +33,13 @@ impl<B: Backend> MnistBatcher<B> {
 
 ```
 
-This codeblock defines a batcher struct with the device in which the tensor should be sent before
+This codeblock defines a batcher struct with the device to which the tensor is sent before
 being passed to the model. Note that the device is an associative type of the `Backend` trait since
 not all backends expose the same devices. As an example, the Libtorch-based backend exposes
 `Cuda(gpu_index)`, `Cpu`, `Vulkan` and `Metal` devices, while the ndarray backend only exposes the
 `Cpu` device.
 
-Next, we need to actually implement the batching logic.
+Next, we implement the batching logic using the `Batcher` trait.
 
 ```rust , ignore
 # use burn::{
@@ -98,7 +98,7 @@ impl<B: Backend> Batcher<MnistItem, MnistBatch<B>> for MnistBatcher<B> {
 <details>
 <summary><strong>🦀 Iterators and Closures</strong></summary>
 
-The iterator pattern allows you to perform some tasks on a sequence of items in turn.
+The iterator pattern allows to perform some tasks on a sequence of items in turn.
 
 In this example, an iterator is created over the `MnistItem`s in the vector `items` by calling the
 `iter` method.
@@ -111,8 +111,8 @@ current batch.
 
 You probably noticed that each call to `map` is different, as it defines a function to execute on
 the iterator items at each step. These anonymous functions are called
-[_closures_](https://doc.rust-lang.org/book/ch13-01-closures.html) in Rust. They're easy to
-recognize due to their syntax which uses vertical bars `||`. The vertical bars capture the input
+[_closures_](https://doc.rust-lang.org/book/ch13-01-closures.html) in Rust. They're
+recognizable by their syntax which uses vertical bars `||`. The vertical bars capture the input
 variables (if applicable) while the rest of the expression defines the function to execute.
 
 If we go back to the example, we can break down and comment the expression used to process the
