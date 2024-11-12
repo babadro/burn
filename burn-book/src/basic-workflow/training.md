@@ -6,13 +6,13 @@ define the code for this training section in the file: `src/training.rs`.
 Instead of a simple tensor, the model should output an item that can be understood by the learner, a
 struct whose responsibility is to apply an optimizer to the model. The output struct is used for all
 metrics calculated during the training. Therefore it should include all the necessary information to
-calculate any metric that you want for a task.
+calculate any metric needed for a task.
 
 Burn provides two basic output types: `ClassificationOutput` and `RegressionOutput`. They implement
-the necessary trait to be used with metrics. It is possible to create your own item, but it is
+the necessary traits to be used with metrics. It is possible to create your own item, but it is
 beyond the scope of this guide.
 
-Since the MNIST task is a classification problem, we will use the `ClassificationOutput` type.
+Since the MNIST task is a classification problem, we use the `ClassificationOutput` type.
 
 ```rust , ignore
 # use crate::{
@@ -48,17 +48,17 @@ impl<B: Backend> Model<B> {
 }
 ```
 
-As evident from the preceding code block, we employ the cross-entropy loss module for loss
-calculation, without the inclusion of any padding token. We then return the classification output
+We employ the cross-entropy loss module for loss
+calculation, without the inclusion of any padding token. We return the classification output
 containing the loss, the output tensor with all logits and the targets.
 
 Please take note that tensor operations receive owned tensors as input. For reusing a tensor
-multiple times, you need to use the `clone()` function. There's no need to worry; this process won't
-involve actual copying of the tensor data. Instead, it will simply indicate that the tensor is
-employed in multiple instances, implying that certain operations won't be performed in place. In
-summary, our API has been designed with owned tensors to optimize performance.
+multiple times, you need to use the `clone()` function. There's no need to worry; this process doesn't
+involve actual copying of the tensor data. Instead, it indicate that the tensor is
+employed in multiple instances, implying that certain operations aren't performed in place. In
+summary, our API is designed with owned tensors to optimize performance.
 
-Moving forward, we will proceed with the implementation of both the training and validation steps
+Moving forward, we proceed with the implementation of both the training and validation steps
 for our model.
 
 ```rust , ignore
@@ -97,7 +97,6 @@ for our model.
 impl<B: AutodiffBackend> TrainStep<MnistBatch<B>, ClassificationOutput<B>> for Model<B> {
     fn step(&self, batch: MnistBatch<B>) -> TrainOutput<ClassificationOutput<B>> {
         let item = self.forward_classification(batch.images, batch.targets);
-
         TrainOutput::new(self, item.loss.backward(), item)
     }
 }
