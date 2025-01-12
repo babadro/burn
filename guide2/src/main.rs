@@ -1,4 +1,5 @@
 mod model;
+mod data;
 
 use crate::model::ModelConfig;
 use burn::backend::Wgpu;
