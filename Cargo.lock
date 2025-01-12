@@ -307,9 +307,9 @@ name = "backend-comparison"
 version = "0.15.0"
 dependencies = [
  "arboard",
- "burn",
- "burn-common",
- "burn-wgpu",
+ "burn 0.15.0",
+ "burn-common 0.15.0",
+ "burn-wgpu 0.15.0",
  "clap 4.5.20",
  "colored",
  "cubecl",
@@ -492,17 +492,40 @@ checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
 name = "burn"
 version = "0.15.0"
 dependencies = [
- "burn-core",
- "burn-train",
+ "burn-core 0.15.0",
+ "burn-train 0.15.0",
+]
+
+[[package]]
+name = "burn"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "09d130fc29965cae23afcc594423e55d977fb142cee37e70034209745bb515e2"
+dependencies = [
+ "burn-core 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-train 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "burn-autodiff"
 version = "0.15.0"
 dependencies = [
- "burn-common",
- "burn-tensor",
+ "burn-common 0.15.0",
+ "burn-tensor 0.15.0",
  "burn-tensor-testgen",
+ "derive-new",
+ "log",
+ "spin",
+]
+
+[[package]]
+name = "burn-autodiff"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bb84f4c9c9e5e90bfdde7cf18d2f7684f60079629be80672d30add20df0d790f"
+dependencies = [
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive-new",
  "log",
  "spin",
@@ -512,9 +535,21 @@ dependencies = [
 name = "burn-candle"
 version = "0.15.0"
 dependencies = [
- "burn-autodiff",
- "burn-tch",
- "burn-tensor",
+ "burn-autodiff 0.15.0",
+ "burn-tch 0.15.0",
+ "burn-tensor 0.15.0",
+ "candle-core",
+ "derive-new",
+ "half",
+]
+
+[[package]]
+name = "burn-candle"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7c8be4878fcd5f166755cf7f828edb6f98a120a41a3dca08f2b7a4195c27b78f"
+dependencies = [
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "candle-core",
  "derive-new",
  "half",
@@ -535,22 +570,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "burn-common"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b812952386979b756241df0f1f3a0bdd5d2969dc39aedc028b0873c33df5e076"
+dependencies = [
+ "cubecl-common",
+ "getrandom",
+ "indicatif",
+ "rayon",
+ "reqwest 0.12.8",
+ "tokio",
+ "web-time",
+]
+
+[[package]]
 name = "burn-core"
 version = "0.15.0"
 dependencies = [
  "ahash",
  "bincode",
- "burn-autodiff",
- "burn-candle",
- "burn-common",
- "burn-cuda",
- "burn-dataset",
- "burn-derive",
- "burn-hip",
- "burn-ndarray",
- "burn-tch",
- "burn-tensor",
- "burn-wgpu",
+ "burn-autodiff 0.15.0",
+ "burn-candle 0.15.0",
+ "burn-common 0.15.0",
+ "burn-cuda 0.15.0",
+ "burn-dataset 0.15.0",
+ "burn-derive 0.15.0",
+ "burn-hip 0.15.0",
+ "burn-ndarray 0.15.0",
+ "burn-tch 0.15.0",
+ "burn-tensor 0.15.0",
+ "burn-wgpu 0.15.0",
  "data-encoding",
  "derive-new",
  "flate2",
@@ -571,12 +621,63 @@ dependencies = [
 ]
 
 [[package]]
+name = "burn-core"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32dfd86c6615420077a089b01d83d9732f16e6dc692a1ad8184d5d46b69691cb"
+dependencies = [
+ "ahash",
+ "bincode",
+ "burn-autodiff 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-candle 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-cuda 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-dataset 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-derive 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-hip 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-ndarray 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tch 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-wgpu 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "data-encoding",
+ "derive-new",
+ "flate2",
+ "half",
+ "hashbrown 0.15.0",
+ "log",
+ "num-traits",
+ "portable-atomic-util",
+ "rand",
+ "rmp-serde",
+ "serde",
+ "serde_json",
+ "spin",
+ "uuid",
+]
+
+[[package]]
 name = "burn-cuda"
 version = "0.15.0"
 dependencies = [
- "burn-fusion",
- "burn-jit",
- "burn-tensor",
+ "burn-fusion 0.15.0",
+ "burn-jit 0.15.0",
+ "burn-tensor 0.15.0",
+ "bytemuck",
+ "cubecl",
+ "derive-new",
+ "half",
+ "log",
+]
+
+[[package]]
+name = "burn-cuda"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1f8a396e355968cfff8ec00f4ad225ccc3bbfc62f99036722e54af68066b0cd5"
+dependencies = [
+ "burn-fusion 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-jit 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck",
  "cubecl",
  "derive-new",
@@ -588,7 +689,7 @@ dependencies = [
 name = "burn-dataset"
 version = "0.15.0"
 dependencies = [
- "burn-common",
+ "burn-common 0.15.0",
  "csv",
  "derive-new",
  "dirs 5.0.1",
@@ -617,8 +718,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "burn-dataset"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c6dc764e250fdccda1323a045881d369af0add9756f2ca95b2df3fc63810b8e"
+dependencies = [
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "csv",
+ "derive-new",
+ "dirs 5.0.1",
+ "flate2",
+ "gix-tempfile",
+ "globwalk",
+ "image",
+ "r2d2",
+ "r2d2_sqlite",
+ "rand",
+ "rmp-serde",
+ "rusqlite",
+ "sanitize-filename",
+ "serde",
+ "serde_json",
+ "serde_rusqlite",
+ "strum",
+ "strum_macros",
+ "tempfile",
+ "thiserror",
+]
+
+[[package]]
 name = "burn-derive"
 version = "0.15.0"
+dependencies = [
+ "derive-new",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.85",
+]
+
+[[package]]
+name = "burn-derive"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "893ec21275e5b0fceca831e6b751ab0df82fcb8ac4a987fe5d704639d23b1e0a"
 dependencies = [
  "derive-new",
  "proc-macro2",
@@ -630,8 +772,24 @@ dependencies = [
 name = "burn-fusion"
 version = "0.15.0"
 dependencies = [
- "burn-common",
- "burn-tensor",
+ "burn-common 0.15.0",
+ "burn-tensor 0.15.0",
+ "derive-new",
+ "half",
+ "hashbrown 0.15.0",
+ "log",
+ "serde",
+ "spin",
+]
+
+[[package]]
+name = "burn-fusion"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3de03914bb49c972f138a2ad6f6d92896a0e8a537a50aca6463fc55bb7bf8d9"
+dependencies = [
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive-new",
  "half",
  "hashbrown 0.15.0",
@@ -644,9 +802,25 @@ dependencies = [
 name = "burn-hip"
 version = "0.15.0"
 dependencies = [
- "burn-fusion",
- "burn-jit",
- "burn-tensor",
+ "burn-fusion 0.15.0",
+ "burn-jit 0.15.0",
+ "burn-tensor 0.15.0",
+ "bytemuck",
+ "cubecl",
+ "derive-new",
+ "half",
+ "log",
+]
+
+[[package]]
+name = "burn-hip"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28af539a8dbf799747b00e1c28f45a876673de3ff5818f9e7f1e47c0806dd795"
+dependencies = [
+ "burn-fusion 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-jit 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck",
  "cubecl",
  "derive-new",
@@ -658,7 +832,7 @@ dependencies = [
 name = "burn-import"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "candle-core",
  "derive-new",
  "half",
@@ -683,11 +857,11 @@ dependencies = [
 name = "burn-jit"
 version = "0.15.0"
 dependencies = [
- "burn-autodiff",
- "burn-common",
- "burn-fusion",
- "burn-ndarray",
- "burn-tensor",
+ "burn-autodiff 0.15.0",
+ "burn-common 0.15.0",
+ "burn-fusion 0.15.0",
+ "burn-ndarray 0.15.0",
+ "burn-tensor 0.15.0",
  "burn-tensor-testgen",
  "bytemuck",
  "cubecl",
@@ -705,14 +879,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "burn-jit"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d8af3155e5004a67ee0b378854912374c4b61e2d8d57fcd35794953dff336fc"
+dependencies = [
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-fusion 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bytemuck",
+ "cubecl",
+ "derive-new",
+ "futures-lite",
+ "half",
+ "hashbrown 0.15.0",
+ "log",
+ "num-traits",
+ "rand",
+ "serde",
+ "spin",
+ "text_placeholder",
+]
+
+[[package]]
 name = "burn-ndarray"
 version = "0.15.0"
 dependencies = [
  "atomic_float",
  "blas-src",
- "burn-autodiff",
- "burn-common",
- "burn-tensor",
+ "burn-autodiff 0.15.0",
+ "burn-common 0.15.0",
+ "burn-tensor 0.15.0",
  "derive-new",
  "libm",
  "matrixmultiply",
@@ -725,11 +922,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "burn-ndarray"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9df139ffaf1f3b5805dcc5e531e7fa3119ad52dcc5b42883661fbf0a694cd82b"
+dependencies = [
+ "atomic_float",
+ "burn-autodiff 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "derive-new",
+ "libm",
+ "matrixmultiply",
+ "ndarray 0.16.1",
+ "num-traits",
+ "portable-atomic-util",
+ "rand",
+ "spin",
+]
+
+[[package]]
 name = "burn-no-std-tests"
 version = "0.15.0"
 dependencies = [
- "burn",
- "burn-ndarray",
+ "burn 0.15.0",
+ "burn-ndarray 0.15.0",
  "serde",
 ]
 
@@ -737,10 +954,10 @@ dependencies = [
 name = "burn-router"
 version = "0.15.0"
 dependencies = [
- "burn-autodiff",
- "burn-ndarray",
- "burn-tensor",
- "burn-wgpu",
+ "burn-autodiff 0.15.0",
+ "burn-ndarray 0.15.0",
+ "burn-tensor 0.15.0",
+ "burn-wgpu 0.15.0",
  "hashbrown 0.15.0",
  "spin",
 ]
@@ -749,8 +966,22 @@ dependencies = [
 name = "burn-tch"
 version = "0.15.0"
 dependencies = [
- "burn-autodiff",
- "burn-tensor",
+ "burn-autodiff 0.15.0",
+ "burn-tensor 0.15.0",
+ "half",
+ "libc",
+ "log",
+ "rand",
+ "tch",
+]
+
+[[package]]
+name = "burn-tch"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4dcb26f4a82f4f2a735d2390e390c499e84e1d5707eeabeefdbb8e160c870a7"
+dependencies = [
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "half",
  "libc",
  "log",
@@ -762,8 +993,29 @@ dependencies = [
 name = "burn-tensor"
 version = "0.15.0"
 dependencies = [
- "burn-common",
+ "burn-common 0.15.0",
  "burn-tensor-testgen",
+ "bytemuck",
+ "colored",
+ "cubecl",
+ "derive-new",
+ "half",
+ "hashbrown 0.15.0",
+ "num-traits",
+ "portable-atomic-util",
+ "rand",
+ "rand_distr",
+ "serde",
+ "serde_bytes",
+]
+
+[[package]]
+name = "burn-tensor"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eb51351b03b2ab2a415c4de924df0409922c75268f9294793e38ae783754013c"
+dependencies = [
+ "burn-common 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck",
  "colored",
  "cubecl",
@@ -790,8 +1042,27 @@ dependencies = [
 name = "burn-train"
 version = "0.15.0"
 dependencies = [
- "burn-core",
- "burn-ndarray",
+ "burn-core 0.15.0",
+ "burn-ndarray 0.15.0",
+ "derive-new",
+ "log",
+ "nvml-wrapper",
+ "ratatui",
+ "serde",
+ "sysinfo",
+ "systemstat",
+ "tracing-appender",
+ "tracing-core",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "burn-train"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "82e25321e3fb5633335217a0efe84ac2441c70bb61b4cdf66cc41f433ab38bef"
+dependencies = [
+ "burn-core 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive-new",
  "log",
  "nvml-wrapper",
@@ -808,9 +1079,21 @@ dependencies = [
 name = "burn-wgpu"
 version = "0.15.0"
 dependencies = [
- "burn-fusion",
- "burn-jit",
- "burn-tensor",
+ "burn-fusion 0.15.0",
+ "burn-jit 0.15.0",
+ "burn-tensor 0.15.0",
+ "cubecl",
+]
+
+[[package]]
+name = "burn-wgpu"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd433918264c8233d104eee59294d13be2942740d369afa2284e08b143927c84"
+dependencies = [
+ "burn-fusion 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-jit 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "burn-tensor 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "cubecl",
 ]
 
@@ -1689,7 +1972,7 @@ dependencies = [
 name = "custom-csv-dataset"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "csv",
  "reqwest 0.12.8",
  "serde",
@@ -1699,8 +1982,8 @@ dependencies = [
 name = "custom-cubecl-kernel"
 version = "0.15.0"
 dependencies = [
- "burn",
- "burn-jit",
+ "burn 0.15.0",
+ "burn-jit 0.15.0",
  "bytemuck",
  "cubecl",
  "derive-new",
@@ -1712,7 +1995,7 @@ dependencies = [
 name = "custom-image-dataset"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "flate2",
  "tar",
 ]
@@ -1721,7 +2004,7 @@ dependencies = [
 name = "custom-renderer"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "bytemuck",
  "derive-new",
  "guide",
@@ -1733,7 +2016,7 @@ dependencies = [
 name = "custom-training-loop"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "bytemuck",
  "derive-new",
  "guide",
@@ -1745,7 +2028,7 @@ dependencies = [
 name = "custom-wgpu-kernel"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "bytemuck",
  "cubecl",
  "derive-new",
@@ -2795,9 +3078,16 @@ dependencies = [
 name = "guide"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "log",
  "serde",
+]
+
+[[package]]
+name = "guide2"
+version = "0.1.0"
+dependencies = [
+ "burn 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -3261,8 +3551,8 @@ dependencies = [
 name = "image-classification-web"
 version = "0.15.0"
 dependencies = [
- "burn",
- "burn-candle",
+ "burn 0.15.0",
+ "burn-candle 0.15.0",
  "burn-import",
  "console_error_panic_hook",
  "cubecl-runtime",
@@ -3782,7 +4072,7 @@ dependencies = [
 name = "mnist"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "log",
  "serde",
 ]
@@ -3791,7 +4081,7 @@ dependencies = [
 name = "mnist-inference-web"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "console_error_panic_hook",
  "cubecl-runtime",
  "js-sys",
@@ -3804,7 +4094,7 @@ dependencies = [
 name = "model"
 version = "0.4.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "burn-import",
 ]
 
@@ -3876,7 +4166,7 @@ dependencies = [
 name = "named-tensor"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "serde",
 ]
 
@@ -4322,7 +4612,7 @@ dependencies = [
 name = "onnx-inference"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "burn-import",
  "serde",
 ]
@@ -4348,9 +4638,9 @@ dependencies = [
 name = "onnx-tests"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "burn-import",
- "burn-ndarray",
+ "burn-ndarray 0.15.0",
  "float-cmp",
  "serde",
 ]
@@ -5246,7 +5536,7 @@ dependencies = [
 name = "pytorch-import"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "burn-import",
  "model",
 ]
@@ -5255,10 +5545,10 @@ dependencies = [
 name = "pytorch-tests"
 version = "0.15.0"
 dependencies = [
- "burn",
- "burn-autodiff",
+ "burn 0.15.0",
+ "burn-autodiff 0.15.0",
  "burn-import",
- "burn-ndarray",
+ "burn-ndarray 0.15.0",
  "float-cmp",
  "serde",
 ]
@@ -6213,7 +6503,7 @@ checksum = "e3a9fe34e3e7a50316060351f37187a3f546bce95496156754b601a5fa71b76e"
 name = "simple-regression"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "log",
  "rgb",
  "serde",
@@ -6619,7 +6909,7 @@ dependencies = [
 name = "text-classification"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "derive-new",
  "serde",
  "tokenizers",
@@ -6629,7 +6919,7 @@ dependencies = [
 name = "text-generation"
 version = "0.15.0"
 dependencies = [
- "burn",
+ "burn 0.15.0",
  "derive-new",
  "log",
  "serde",
